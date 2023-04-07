@@ -6,8 +6,7 @@
   "main": "./src",
   "exports": {
     ".": "./src",
-    "./styles.css": "./src/styles.css",
-    "./tailwind.config": "./tailwind.config.cjs"
+    "./styles.css": "./src/styles.css"
   },
   "exports--TRIAL-2": {
     ".": "./src/index.tsx",
