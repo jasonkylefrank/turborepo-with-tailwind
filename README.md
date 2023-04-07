@@ -1,54 +1,13 @@
-# Turborepo Tailwind CSS starter
+# My customizations / experimentations on the "Turborepo Tailwind CSS starter"
 
-This is an official starter Turborepo.
+I needed to support things that Turborepo's Tailwind starter did not support, so I created this repo to figure out how to get those things to work.
 
-## What's inside?
+Turborepo was using `tsup` to build the `ui` package before the `web` and `docs` apps consumed it. That worked fine for basic React and Tailwind components. But it fell apart when I needed to use a CSS Module file since `tsup` only has **experimental** support for CSS at the time of this writing (and I could not get it to work).
 
-This Turborepo includes the following packages/apps:
+As such, I've tried a few other approaches to be able to use both Tailwind CSS and CSS modules in the `ui` package. I have a few different branches that use some of these different approaches.
 
-### Apps and Packages
+These approaches range from not building _anything_ in the `ui` package (and transpiling them in the consuming packages) to using `Vite`'s "library mode" to build the `ui` components and styles before being consumed by the apps.
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+Using `Vite`'s "library mode" worked decent but I could not find a way to hot-reload changes made to components in the `ui` package when consuming them in the apps. `Vite` does support hot-reloading when you're using instances of your components _in the same project_, but I have not yet found a way to extend that hot-reloading to _other (consuming) projects_ in the same monorepo.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is setup to build `packages/ui` and output the transpiled source and compiled styles to `dist/`. This was chosen to make sharing one `tailwind.config.js` as easy as possible, and to ensure only the CSS that is used by the current application and its dependencies is generated.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update your `tailwind.config.js` to be aware of your package locations, so it can find all usages of the `tailwindcss` class names.
-
-For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/**/*.{js,ts,jsx,tsx}",
-  ],
-```
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx degit vercel/turbo/examples/with-tailwind with-tailwind
-cd with-tailwind
-pnpm install
-git init . && git add . && git commit -m "Init"
-```
+As such, the best approach I've found so far is to not compile the components or styles in the `ui` package and instead transpile in the consuming apps of the monorepo.
