@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "sideEffects": false,
   "type": "module",
-  "main": "./src/index.tsx",
+  "main": "./src",
   "exports": {
+    ".": "./src",
+    "./styles.css": "./src/styles.css",
+    "./tailwind.config": "./tailwind.config.cjs"
+  },
+  "exports--TRIAL-2": {
     ".": "./src/index.tsx",
     "./styles.css": "./src/styles.css",
     "./*": [
