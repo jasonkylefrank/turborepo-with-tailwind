@@ -11,3 +11,10 @@ These approaches range from not building _anything_ in the `ui` package (and tra
 Using `Vite`'s "library mode" worked decent but I could not find a way to hot-reload changes made to components in the `ui` package when consuming them in the apps. `Vite` does support hot-reloading when you're using instances of your components _in the same project_, but I have not yet found a way to extend that hot-reloading to _other (consuming) projects_ in the same monorepo.
 
 As such, the best approach I've found so far is to not compile the components or styles in the `ui` package and instead transpile in the consuming apps of the monorepo.
+
+## Branch descriptions
+
+As of this writing, I've published a few branches, each of which shows a different compilation strategy for the `ui` package:
+
+- `transpile`: The `ui` package does not compile anything. Instead, the consuming apps (`web` and `docs`) use the `transpileModules` property in the `next.config.js` file to instruct the Next.js build script to compile the `ui` package.
+- `vite-css-modules`: The `ui` package is compiled by Vite, using the **"library mode"** approach. You can see the specifics about that in the `vite.config.ts` file in the `ui` package. Note that I performed additional adjustments to the `ui` package's `package.json` to get this appraoch to work compared to the `transpile` approach.
