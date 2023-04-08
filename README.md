@@ -16,5 +16,5 @@ As such, the best approach I've found so far is to not compile the components or
 
 As of this writing, I've published a few branches, each of which shows a different compilation strategy for the `ui` package:
 
-- `transpile`: The `ui` package does not compile anything. Instead, the consuming apps (`web` and `docs`) use the `transpileModules` property in the `next.config.js` file to instruct the Next.js build script to compile the `ui` package.
+- `transpile`: The `ui` package does not compile anything. Instead, the consuming apps (`web` and `docs`) use the `transpilePackages` property in the `next.config.js` file to instruct the Next.js build script to compile the `ui` package. Note that this also works with the hot-reloading `dev` script.
 - `vite-css-modules`: The `ui` package is compiled by Vite, using the **"library mode"** approach. You can see the specifics about that in the `vite.config.ts` file in the `ui` package. Note that I performed additional adjustments to the `ui` package's `package.json` to get this appraoch to work compared to the `transpile` approach.
